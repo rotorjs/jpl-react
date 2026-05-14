@@ -1,21 +1,14 @@
-import type { DashboardState, ErrorDashboardNode } from '@rotorjs/dashboards';
+import type { DashboardState } from '@rotorjs/dashboards';
 import type {
   JPLDashboardLayoutNode,
   JPLDashboardReducerInit,
 } from '@rotorjs/jpl';
 import {
-  DashboardContext,
-  DashboardError,
   DashboardLayout,
-  getKey,
+  DashboardLayoutError,
   useDashboardState,
 } from '@rotorjs/react';
-import {
-  useContext,
-  useMemo,
-  type ComponentType,
-  type PropsWithChildren,
-} from 'react';
+import { useMemo, type PropsWithChildren } from 'react';
 
 // TODO: implement placeholder
 const initialState: DashboardState = [];
@@ -24,8 +17,6 @@ export function JPLLayout({
   src,
   children,
 }: PropsWithChildren<JPLDashboardLayoutNode>) {
-  const { layouts } = useContext(DashboardContext);
-
   const init = useMemo<JPLDashboardReducerInit>(
     () => ({ src: src ?? '', initialState }),
     [src],
@@ -36,13 +27,9 @@ export function JPLLayout({
   if (!content.length) return null;
 
   if (content.length > 1) {
-    const Error = (layouts.error ??
-      DashboardError) as ComponentType<ErrorDashboardNode>;
-    const errorNode = {
-      type: 'error' as const,
-      error: `JPL reducer returned more than one layout node`,
-    };
-    return <Error {...errorNode} key={getKey(errorNode)} />;
+    return (
+      <DashboardLayoutError error="State reducer returned more than one layout node" />
+    );
   }
 
   const [layout] = content;

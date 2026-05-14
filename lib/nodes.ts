@@ -3,9 +3,9 @@ import { JPLLayout } from './JPLLayout';
 import { JPLTile } from './JPLTile';
 
 export const jplLayouts: DashboardLayoutMap = {
-  jpl: JPLLayout,
+  script: JPLLayout,
 };
 
 export const jplTiles: DashboardTileMap = {
-  jpl: JPLTile,
+  script: JPLTile,
 };
