@@ -1,6 +1,6 @@
-import { attachWorker } from '@rotorjs/core';
-import { DashboardEngine } from '@rotorjs/dashboards';
-import { createJPLDashboardReducer } from '@rotorjs/jpl';
+import { DashboardEngine } from '@rotorjs/dashboard';
+import { createJPLStateReducerConfig } from '@rotorjs/jpl';
+import { attachWorker } from '@rotorjs/state';
 
-const engine = new DashboardEngine(createJPLDashboardReducer());
+const engine = new DashboardEngine({ script: createJPLStateReducerConfig() });
 attachWorker(engine, self);
