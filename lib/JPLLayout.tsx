@@ -1,7 +1,7 @@
-import type { DashboardState } from '@rotorjs/dashboards';
+import type { DashboardStateDescriptor } from '@rotorjs/dashboard';
 import type {
   JPLDashboardLayoutNode,
-  JPLDashboardReducerInit,
+  JPLStateReducerParams,
 } from '@rotorjs/jpl';
 import {
   DashboardLayout,
@@ -10,19 +10,19 @@ import {
 } from '@rotorjs/react';
 import { useMemo, type PropsWithChildren } from 'react';
 
-// TODO: implement placeholder
-const initialState: DashboardState = [];
-
 export function JPLLayout({
+  type,
   src,
+  vars,
+  initial,
   children,
 }: PropsWithChildren<JPLDashboardLayoutNode>) {
-  const init = useMemo<JPLDashboardReducerInit>(
-    () => ({ src: src ?? '', initialState }),
-    [src],
+  const descriptor = useMemo<DashboardStateDescriptor>(
+    () => ({ type, params: { src, vars } satisfies JPLStateReducerParams }),
+    [type, src, vars],
   );
 
-  const content = useDashboardState(init, initialState);
+  const content = useDashboardState(descriptor, initial ? [initial] : []);
 
   if (!content.length) return null;
 

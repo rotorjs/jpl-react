@@ -1,12 +1,12 @@
 import { jplLayouts, jplTiles } from '@/nodes';
-import { attachWorker } from '@rotorjs/core';
 import {
   DashboardEventTarget,
   type DashboardLayoutNode,
   type DashboardTileNode,
   type ErrorDashboardNode,
-} from '@rotorjs/dashboards';
+} from '@rotorjs/dashboard';
 import { Dashboard } from '@rotorjs/react';
+import { attachWorker } from '@rotorjs/state';
 import { type ComponentType, type PropsWithChildren } from 'react';
 // eslint-disable-next-line import-x/default
 import Worker from './worker?worker';
@@ -21,7 +21,15 @@ attachWorker(engine, worker);
 
 function CustomError({ error }: ErrorDashboardNode) {
   return (
-    <div style={{ color: 'red', textAlign: 'start' }}>
+    <div
+      style={{
+        color: 'red',
+        textAlign: 'start',
+        border: '1px dashed red',
+        borderRadius: 10,
+        padding: 10,
+      }}
+    >
       Error:
       <pre>{(error as Error)?.message ?? error?.toString()}</pre>
     </div>
@@ -30,7 +38,13 @@ function CustomError({ error }: ErrorDashboardNode) {
 
 function StackLayout({ children }: PropsWithChildren<DashboardLayoutNode>) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 10,
+      }}
+    >
       {children}
     </div>
   );
@@ -39,7 +53,13 @@ function StackLayout({ children }: PropsWithChildren<DashboardLayoutNode>) {
 function CardTile(_: DashboardTileNode) {
   return (
     <div
-      style={{ width: 100, height: 100, background: 'red', borderRadius: 10 }}
+      style={{
+        width: 100,
+        height: 100,
+        placeSelf: 'center',
+        background: 'red',
+        borderRadius: 10,
+      }}
     />
   );
 }
@@ -60,8 +80,8 @@ const tiles = {
 
 const content = [
   { type: 'card' },
-  { type: 'jpl', src: '{ type: "card" }' },
-  { type: 'jpl' },
+  { type: 'script', src: '{ type: "card" }' },
+  { type: 'script', src: 'error->("no")' },
 ];
 
 export default function App() {

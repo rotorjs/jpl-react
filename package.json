@@ -1,6 +1,6 @@
 {
   "name": "@rotorjs/jpl-react",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Rotor",
   "author": {
     "name": "Aaron Burmeister"
@@ -45,13 +45,13 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@rotorjs/dashboards": "^0.13.3",
-    "@rotorjs/jpl": "^0.3.2",
-    "@rotorjs/react": "^0.5.0",
+    "@rotorjs/dashboard": "^0.2.0",
+    "@rotorjs/jpl": "^0.5.0",
+    "@rotorjs/react": "^0.8.0",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
-    "@vitejs/plugin-react": "^6.0.1",
-    "eslint": "^10.3.0",
+    "@vitejs/plugin-react": "^6.0.2",
+    "eslint": "^10.4.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import-x": "^4.16.2",
@@ -63,14 +63,14 @@
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.59.3",
-    "unplugin-dts": "^1.0.0",
+    "typescript-eslint": "^8.59.4",
+    "unplugin-dts": "^1.0.1",
     "vite": "^8.0.13"
   },
   "peerDependencies": {
-    "@rotorjs/dashboards": "^0.13.3",
-    "@rotorjs/jpl": "^0.3.2",
-    "@rotorjs/react": "^0.5.0",
+    "@rotorjs/dashboard": "^0.2.0",
+    "@rotorjs/jpl": "^0.5.0",
+    "@rotorjs/react": "^0.8.0",
     "react": "^19.0.0"
   }
 }
