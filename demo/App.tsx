@@ -5,27 +5,35 @@ import {
   type DashboardTileNode,
   type ErrorDashboardNode,
 } from '@rotorjs/dashboard';
-import { Dashboard } from '@rotorjs/react';
+import { Dashboard, type DashboardTileMap } from '@rotorjs/react';
 import { attachWorker } from '@rotorjs/state';
-import { type ComponentType, type PropsWithChildren } from 'react';
+import {
+  type ComponentType,
+  type CSSProperties,
+  type PropsWithChildren,
+} from 'react';
 // eslint-disable-next-line import-x/default
 import Worker from './worker?worker';
 
+import type { JPLDashboardTileNode } from '@rotorjs/jpl';
 import './App.css';
 
 const worker = new Worker();
-const engine = new DashboardEventTarget();
-attachWorker(engine, worker);
+const target = new DashboardEventTarget();
+attachWorker(target, worker);
 
-(window as typeof window & { engine: DashboardEventTarget }).engine = engine;
+(window as typeof window & { target: DashboardEventTarget }).target = target;
 
 function CustomError({ error }: ErrorDashboardNode) {
   return (
     <div
       style={{
+        minWidth: 100,
+        minHeight: 100,
         color: 'red',
         textAlign: 'start',
         border: '1px dashed red',
+        boxSizing: 'border-box',
         borderRadius: 10,
         padding: 10,
       }}
@@ -50,15 +58,16 @@ function StackLayout({ children }: PropsWithChildren<DashboardLayoutNode>) {
   );
 }
 
-function CardTile(_: DashboardTileNode) {
+function CardTile({ style }: DashboardTileNode) {
   return (
     <div
       style={{
         width: 100,
         height: 100,
         placeSelf: 'center',
-        background: 'red',
+        backgroundColor: 'red',
         borderRadius: 10,
+        ...(style as CSSProperties),
       }}
     />
   );
@@ -72,22 +81,37 @@ const layouts = {
 
 const defaultLayout = { type: 'stack' };
 
-const tiles = {
+const tiles: DashboardTileMap = {
   ...jplTiles,
   error: CustomError as ComponentType<DashboardTileNode>,
   card: CardTile,
 };
 
+const placeholder = [
+  {
+    type: 'card',
+    style: { backgroundColor: 'none', boxShadow: 'inset 0 0 0 3px red' },
+  },
+];
+
 const content = [
   { type: 'card' },
-  { type: 'script', src: '{ type: "card" }' },
-  { type: 'script', src: 'error->("no")' },
+  {
+    type: 'script',
+    src: '{ type: "card" }',
+    initial: placeholder,
+  } satisfies JPLDashboardTileNode,
+  {
+    type: 'script',
+    src: 'error->("no")',
+    initial: placeholder,
+  } satisfies JPLDashboardTileNode,
 ];
 
 export default function App() {
   return (
     <Dashboard
-      engine={engine}
+      target={target}
       layouts={layouts}
       defaultLayout={defaultLayout}
       tiles={tiles}
