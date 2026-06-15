@@ -36,3 +36,4 @@ export function JPLLayout({
 
   return <DashboardLayout layout={layout}>{children}</DashboardLayout>;
 }
+JPLLayout.displayName = 'JPLLayout';

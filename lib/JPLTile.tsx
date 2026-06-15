@@ -13,3 +13,4 @@ export function JPLTile({ type, src, vars, initial }: JPLDashboardTileNode) {
 
   return <DashboardTiles content={content} />;
 }
+JPLTile.displayName = 'JPLTile';
